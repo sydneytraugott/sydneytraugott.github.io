@@ -4,20 +4,20 @@
     "href": "project.html",
     "title": "Projects",
     "section": "",
-    "text": "Project 1\nProject 2\nProject 3\nProject 4"
+    "text": "Combining Datasets.\nProject 1\nProject 2\nProject 3\nProject 4"
   },
   {
     "objectID": "about.html",
     "href": "about.html",
     "title": "About Me",
     "section": "",
-    "text": "This is where you get to write about yourself.\nIf your favorite color is purple you might show a graph that uses purple."
+    "text": "Hi, I’m Sydney Traugott!"
   },
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "Quarto Web Demo",
+    "title": "STT 2860 Intro to Data Management and Visual",
     "section": "",
-    "text": "This is the main landing page!\n\nTo learn more about geezers.\nTo learn more about Quarto websites."
+    "text": "This is the main landing page. Here is where you can find all external links.\n\nTo learn more about Quarto websites."
   }
 ]

@@ -1,10 +1,9 @@
 ---
-title: "Quarto Web Demo"
+title: "STT 2860 Intro to Data Management and Visual"
 ---
 
-This is the main landing page!
+This is the main landing page. Here is where you can find all external links. 
 
-* To learn more about [geezers](https://www.thegeezer.com/).
 
 * To learn more about [Quarto websites](https://quarto.org/docs/websites).
 
