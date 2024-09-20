@@ -5,6 +5,8 @@ title: "STT 2860 Intro to Data Management and Visual"
 This is the main landing page. Here is where you can find all external links. 
 
 
+* To view my [LinkedIn Profile.](https://www.linkedin.com/in/sydney-traugott-721285273/)
+
 * To learn more about [Quarto websites](https://quarto.org/docs/websites).
 
 
