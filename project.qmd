@@ -1,7 +1,7 @@
 ---
 title: "Projects"
 ---
-* [Combining Datasets](https://mathr.appstate.edu/s/dadebcfc78a31f585f0ca/files/git_repos/Combining%20Datasets%20Slides.html#/title-slide).
+* [Combining Datasets](CombiningDatasetsSlides.qmd).
 * [Project 1]()
 * [Project 2]()
 * [Project 3]()
