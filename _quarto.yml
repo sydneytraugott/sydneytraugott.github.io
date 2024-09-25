@@ -21,10 +21,10 @@ website:
 
 format:
   html:
-    theme: yeti  # flatly, litera, lumen, lux, minty, pulse, sandstone, zephyr, quartz, yeti, cosmo, sketchy
+    theme: yeti # flatly, litera, lumen, lux, minty, pulse, sandstone, zephyr, quartz, yeti, cosmo, sketchy
     css: styles.css
     toc: true
-    fontfamily: sansfont
+    mainfont: Palatino, URW Palladio L, serif
 
 execute: 
   freeze: auto
