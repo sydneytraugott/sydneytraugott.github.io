@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.433">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Sydney Traugott">
+<meta name="keywords" content="R, data viz">
+
+<title>Sydney Traugott - Understanding the Factors of Mental Health</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Sydney Traugott</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html" rel="" target="">
+ <span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html" rel="" target="">
+ <span class="menu-text">About Me</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../project.html" rel="" target="">
+ <span class="menu-text">Projects</span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools ms-auto tools-wide">
+    <a href="https://www.mountainproject.com/area/112001458/the-dump" rel="" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-trash"></i></a>
+    <a href="https://www.linkedin.com/in/sydney-traugott-721285273/" rel="" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-linkedin"></i></a>
+    <a href="https://github.com/sydneytraugott/sydneytraugott.github.io" rel="" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a>
+  <ul class="collapse">
+  <li><a href="#loading-necessary-packages" id="toc-loading-necessary-packages" class="nav-link" data-scroll-target="#loading-necessary-packages">Loading Necessary Packages</a></li>
+  <li><a href="#importing-data" id="toc-importing-data" class="nav-link" data-scroll-target="#importing-data">Importing Data</a>
+  <ul class="collapse">
+  <li><a href="#data-structures-and-variables" id="toc-data-structures-and-variables" class="nav-link" data-scroll-target="#data-structures-and-variables">Data Structures and Variables</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#data-visualizations" id="toc-data-visualizations" class="nav-link" data-scroll-target="#data-visualizations">Data Visualizations</a>
+  <ul class="collapse">
+  <li><a href="#demographics-data-visualization" id="toc-demographics-data-visualization" class="nav-link" data-scroll-target="#demographics-data-visualization">Demographics Data Visualization</a></li>
+  <li><a href="#gender" id="toc-gender" class="nav-link" data-scroll-target="#gender">Gender</a>
+  <ul class="collapse">
+  <li><a href="#history" id="toc-history" class="nav-link" data-scroll-target="#history">History</a></li>
+  <li><a href="#symptoms" id="toc-symptoms" class="nav-link" data-scroll-target="#symptoms">Symptoms</a></li>
+  <li><a href="#treatment-and-coping" id="toc-treatment-and-coping" class="nav-link" data-scroll-target="#treatment-and-coping">Treatment and Coping</a></li>
+  </ul></li>
+  <li><a href="#occupation" id="toc-occupation" class="nav-link" data-scroll-target="#occupation">Occupation</a>
+  <ul class="collapse">
+  <li><a href="#stress-and-work-interest" id="toc-stress-and-work-interest" class="nav-link" data-scroll-target="#stress-and-work-interest">Stress and Work Interest</a></li>
+  <li><a href="#changes" id="toc-changes" class="nav-link" data-scroll-target="#changes">Changes</a></li>
+  <li><a href="#mental-health" id="toc-mental-health" class="nav-link" data-scroll-target="#mental-health">Mental Health</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Understanding the Factors of Mental Health</h1>
+</div>
+
+
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Author</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
+  
+    <div class="quarto-title-meta-contents">
+    <p class="author">Sydney Traugott </p>
+  </div>
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            <a href="https://www.appstate.edu/">
+            Appalachian State University
+            </a>
+          </p>
+      </div>
+    </div>
+
+<div class="quarto-title-meta">
+
+      
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">Last modified on December 11, 2024 06:50:40 Eastern Standard Time</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+<div>
+  <div class="abstract">
+    <div class="abstract-title">Abstract</div>
+    <p>This a dataset that recorded a global survey conducted to track trends in mental health in 2014 - 2015. The data covers a range of variables such as levels of stress, depression, anxiety, subjective well-being, and use of mental health services. The survey involved respondents from various demographic backgrounds, including gender, employment status, and geographic region. This dataset aims to provide a better understanding of changes in mental health globally over the specified time period.</p>
+  </div>
+</div>
+
+</header>
+
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>Let’s get started.</p>
+<section id="loading-necessary-packages" class="level2">
+<h2 class="anchored" data-anchor-id="loading-necessary-packages">Loading Necessary Packages</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># For data manipulation and tidying</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># For mapping</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggmap)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mapproj)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># For data visualizations</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># For modeling and machine learning</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="importing-data" class="level2">
+<h2 class="anchored" data-anchor-id="importing-data">Importing Data</h2>
+<p>All of the data can be downloaded from <a href="https://www.kaggle.com/pronto/cycle-share-dataset">Kaggle</a>)https://www.kaggle.com/datasets/divaniazzahra/mental-health-dataset/data).</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="st">"Mental-Health-Dataset.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Ok, let’s take a look at each of these data files.</p>
+<section id="data-structures-and-variables" class="level3">
+<h3 class="anchored" data-anchor-id="data-structures-and-variables">Data Structures and Variables</h3>
+<section id="results" class="level4">
+<h4 class="anchored" data-anchor-id="results">`results``</h4>
+<div class="cell" data-layout-align="center">
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 292,364
+Columns: 17
+$ Timestamp               &lt;chr&gt; "2014-08-27 11:29:31", "2014-08-27 11:31:50", …
+$ Gender                  &lt;chr&gt; "Female", "Female", "Female", "Female", "Femal…
+$ Country                 &lt;chr&gt; "United States", "United States", "United Stat…
+$ Occupation              &lt;chr&gt; "Corporate", "Corporate", "Corporate", "Corpor…
+$ self_employed           &lt;chr&gt; "", "", "", "No", "No", "No", "No", "No", "No"…
+$ family_history          &lt;chr&gt; "No", "Yes", "Yes", "Yes", "Yes", "No", "Yes",…
+$ treatment               &lt;chr&gt; "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes…
+$ Days_Indoors            &lt;chr&gt; "1-14 days", "1-14 days", "1-14 days", "1-14 d…
+$ Growing_Stress          &lt;chr&gt; "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes…
+$ Changes_Habits          &lt;chr&gt; "No", "No", "No", "No", "No", "No", "No", "No"…
+$ Mental_Health_History   &lt;chr&gt; "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes…
+$ Mood_Swings             &lt;chr&gt; "Medium", "Medium", "Medium", "Medium", "Mediu…
+$ Coping_Struggles        &lt;chr&gt; "No", "No", "No", "No", "No", "No", "No", "No"…
+$ Work_Interest           &lt;chr&gt; "No", "No", "No", "No", "No", "No", "No", "No"…
+$ Social_Weakness         &lt;chr&gt; "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes…
+$ mental_health_interview &lt;chr&gt; "No", "No", "No", "Maybe", "No", "Maybe", "No"…
+$ care_options            &lt;chr&gt; "Not sure", "No", "Yes", "Yes", "Yes", "Not su…</code></pre>
+</div>
+</div>
+<p>There are 17 variables in the data <code>results</code> data frame:</p>
+<ol type="1">
+<li><p><code>Timestamp</code>: Time and date of survey.</p></li>
+<li><p><code>Gender</code>: Gender of the respondent.</p></li>
+<li><p><code>Country</code>: The country where the respondent lives.</p></li>
+<li><p><code>Occupation</code>: Occupation or profession of the respondent.</p></li>
+<li><p><code>self_employed</code>: Is the respondent self-employed or not?</p></li>
+<li><p><code>family_history</code>: Is there a history of mental health disorders in the respondent’s family?</p></li>
+<li><p><code>treatment</code>: Has the respondent ever received treatment or therapy for mental health problems?</p></li>
+<li><p><code>Days_Indoors</code>: Estimated number of days a week the respondent spends indoors.</p></li>
+<li><p><code>Growing_Stress</code>: The current level of stress the respondent feels.</p></li>
+<li><p><code>Changes_habits</code>: Has the respondent experienced any changes in sleeping habits or patterns?</p></li>
+<li><p><code>Mental_Health_History</code>: Does the respondent have a previous history of mental health disorders?</p></li>
+<li><p><code>Mood_Swings</code>: Does the respondent experience sudden mood swings?</p></li>
+<li><p><code>Coping_Struggles</code>: Does the respondent have difficulty coping with pressure or stress?</p></li>
+<li><p><code>Work_Interest</code>: The respondent’s level of interest and motivation in their work.</p></li>
+<li><p><code>Social_Weakness</code>: Does the respondent find difficulty to interact socially or maintain relationships?</p></li>
+<li><p><code>mental_health_interview</code>: Is the respondent willing to be interviewed about their mental health?</p></li>
+<li><p><code>care_options</code>: Is the respondent aware of or using mental health care options?</p></li>
+</ol>
+</section>
+</section>
+</section>
+</section>
+<section id="data-visualizations" class="level1">
+<h1>Data Visualizations</h1>
+<p>Most of the data in this data set is categorical data, so our visualization will be very limited.</p>
+<section id="demographics-data-visualization" class="level2">
+<h2 class="anchored" data-anchor-id="demographics-data-visualization">Demographics Data Visualization</h2>
+<p>Let’s explore a little at the different demographics such as <code>Gender</code> and <code>Occupation</code> that the data set has.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 2
+# Groups:   Gender [2]
+  Gender      n
+  &lt;chr&gt;   &lt;int&gt;
+1 Female  52514
+2 Male   239850</code></pre>
+</div>
+</div>
+<p>There are 2 genders in this data set with male being the majority number.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 2
+# Groups:   Occupation [5]
+  Occupation     n
+  &lt;chr&gt;      &lt;int&gt;
+1 Business   50149
+2 Corporate  61229
+3 Housewife  66351
+4 Others     52841
+5 Student    61794</code></pre>
+</div>
+</div>
+<p>There are 5 different occupations.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 35 × 2
+# Groups:   Country [35]
+   Country                    n
+   &lt;chr&gt;                  &lt;int&gt;
+ 1 Australia               6026
+ 2 Belgium                  824
+ 3 Bosnia and Herzegovina   390
+ 4 Brazil                  2340
+ 5 Canada                 18726
+ 6 Colombia                 390
+ 7 Costa Rica               390
+ 8 Croatia                  390
+ 9 Czech Republic           390
+10 Denmark                  780
+# ℹ 25 more rows</code></pre>
+</div>
+</div>
+<p>There are 35 countries.</p>
+<p>Let’s make a graph that has gender and occupation in it while facet wrapped by countries.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-facet" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="MentalHealth-SydneyTraugott_files/figure-html/fig-facet-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;1: 35 side-by-side graphs, one for each country. Each has a seperate line based off of gender and it is grouped by occupation, showing activity by hour of the day when the data was collected.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Since we did a count of demographics, let’s see how they interact with the different factors of mental health.</p>
+</section>
+<section id="gender" class="level2">
+<h2 class="anchored" data-anchor-id="gender">Gender</h2>
+<p>Gender is a well known demographic that has different disparities when it comes to mental health. Usually, women are more at risk for mood disorder and symptoms and anxiety disorders and symptoms. However, since there is a lot more men in that data set compare to women, the data might tell us something else. So why don’t we take a look at how gender plays a role in some of the factors of mental health.</p>
+<p>For this, let’s look at <code>Growing_Stress</code>, <code>Mood_Swings</code>, <code>Treatment</code>, <code>Coping_Struggles</code>, <code>Mental_Health_History</code>, and <code>Family_History</code>.</p>
+<section id="history" class="level3">
+<h3 class="anchored" data-anchor-id="history">History</h3>
+<p>Let’s start with how participants who have a history with mental health based on gender.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-bar1" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="MentalHealth-SydneyTraugott_files/figure-html/fig-bar1-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;2: A bar graph showing the number of people who have history with mental health based on gender.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>As predicted, there is more men then women who have a history with mental health. But what about family history?</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-bar2" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="MentalHealth-SydneyTraugott_files/figure-html/fig-bar2-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;3: A bar graph showing the number of people whose families have a history of mental health based on gender.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>How interesting that <code>family_history</code> doesn’t have a maybe column like the previous bar graph. Just like the previous graph, it is overwhelmingly men then women.</p>
+</section>
+<section id="symptoms" class="level3">
+<h3 class="anchored" data-anchor-id="symptoms">Symptoms</h3>
+<p>In this section, let’s look at how gender can play into effect at different mental health symptoms that can pre-determine or factor into mental health.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-bar3" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="MentalHealth-SydneyTraugott_files/figure-html/fig-bar3-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;4: A bar graph showing the number of people who stress has been increasing based off of gender.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Well that’s interesting. Even though there is still an overwhelmingly huge response from men, a good portion of women said yes to being stress compared to the no and maybe responses. Meanwhile for men, there is only a slightly higher stress levels compared to the no category while it’s mostly a maybe for men.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-bar4" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="MentalHealth-SydneyTraugott_files/figure-html/fig-bar4-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;5: A bar graph showing the number of people who experienced mood swings based off of gender.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The responses for this graph is slightly similar to the increase in stress graph. While men are ranked lower in the high category for mood swings, it seems like their highest category is medium mood swings. Meanwhile, women experience high mood swings and about the same amount of mood swings in the other two categories.</p>
+</section>
+<section id="treatment-and-coping" class="level3">
+<h3 class="anchored" data-anchor-id="treatment-and-coping">Treatment and Coping</h3>
+<p>In this section, let’s look at how gender can play into effect in how people receive treatment or have difficulty in coping with pressure or stress.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-bar5" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="MentalHealth-SydneyTraugott_files/figure-html/fig-bar5-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;6: A bar graph showing how different genders interact coping with pressure and stress.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>It seems like while men are less likely to struggle coping with pressure and stress, women are more likely to struggle.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-bar6" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="MentalHealth-SydneyTraugott_files/figure-html/fig-bar6-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;7: A bar graph showing if different genders recieve treatment.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>That’s a huge disparity. It seems like more women are receiving treatment or therapy for their mental health problems compared to men who mainly don’t receive anything for their mental health problems.</p>
+</section>
+</section>
+<section id="occupation" class="level2">
+<h2 class="anchored" data-anchor-id="occupation">Occupation</h2>
+<p>Occupation is another well known demographic that has different disparities when it comes to mental health. Usually, those who are unemployed or students has more mental health problems due to socioeconomic reasons.</p>
+<p>For this, let’s look at <code>Growing_Stress</code>, <code>Work_Interest</code>, <code>Coping_Struggles</code>, <code>Changes_Habits</code>, <code>Social_Weakness</code>, and <code>Mental_Health_History</code>.</p>
+<section id="stress-and-work-interest" class="level3">
+<h3 class="anchored" data-anchor-id="stress-and-work-interest">Stress and Work Interest</h3>
+<p>In this section let’s see how stress can play into work interest for different occupations. From there, let’s see if there have been any coping difficulties to manage the pressure and stress.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-facet2" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="MentalHealth-SydneyTraugott_files/figure-html/fig-facet2-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;8: Five side-by-side graphs, one for each occupation. Each has a seperate line based off of interest and motivation in work and it is grouped by and colored by stress levels each participant is feeling.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>For a majority of these occupations, it seems like when there is a small amount of stress and pressure put upon them, the more interested and motivated they are in their work.</p>
+<p>So how does this play into how they cope with that stress based on occupation?</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-facet3" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="MentalHealth-SydneyTraugott_files/figure-html/fig-facet3-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;9: Five side-by-side graphs, one for each occupation. Each has a seperate line based off of difficulty in how the participant copes with stress and it is grouped by and colored by stress levels each participant is feeling.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>It seems that those with high levels of stress are also having difficulty managing stress, which is affecting their mental health.</p>
+</section>
+<section id="changes" class="level3">
+<h3 class="anchored" data-anchor-id="changes">Changes</h3>
+<p>I want to see if depending on the occupation and stress, if there have been any changes in their sleeping habits or patters. Additionally, does the type of occupation and stress affect relationships?</p>
+<p>Let’s start off by looking into how sleep patterns and habits are affected by types of occupation and stress.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-facet4" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="MentalHealth-SydneyTraugott_files/figure-html/fig-facet4-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;10: Five side-by-side graphs, one for each occupation. Each has a seperate line based off changes in sleep patterns and habits and it is grouped by and colored by stress levels each participant is feeling.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Seems like most changes of sleep patterns and habits correlate with a high level of stress.</p>
+<p>Let’s now look into how it may have been difficult to interact socially or maintain relationships based on stress and occupation.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-facet5" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="MentalHealth-SydneyTraugott_files/figure-html/fig-facet5-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;11: Five side-by-side graphs, one for each occupation. Each has a seperate line based off difficulty interacting and maintaining relationships. It is grouped by and colored by stress levels each participant is feeling.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>It seems to be all over the place depending on the occupation. Looks like that the majority have said it was difficult to maintain a relationship or interact socially depending on the occupation and current levels of stress.</p>
+</section>
+<section id="mental-health" class="level3">
+<h3 class="anchored" data-anchor-id="mental-health">Mental Health</h3>
+<p>Finally, in this section let’s look at how mental health is affected by occupations.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-bar7" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="MentalHealth-SydneyTraugott_files/figure-html/fig-bar7-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;12: Three side-by-side bars, one for each response for participants who indicated that have had history of mental health disorders. It is filled by different indications of stress levels. Pink is maybe, light blue is no, and purple is yes.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>It looks like it also depends on the occupation participants have. It is all over the place for maybe having mental health disorder and seems like those who indicated that they may have some levels of stress may also have some mental health disorder. There seems that a participant has either indicated no or a maybe to having stress with no mental heath disorders.There is a low indication and confirmation from participants that they have some form of mental health disorder. From here they mainly either indicated yes or a maybe for increase in stress.</p>
+
+
+</section>
+</section>
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div id="quarto-reuse" class="quarto-appendix-contents"><div><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</a></div></div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
