@@ -3,5 +3,5 @@ title: "Projects"
 ---
 * [Combining Datasets](CombiningDatasetsSlides.qmd).
 * [Project 1](https://stt2860-f2024.github.io/bicycle-sharing-sydneytraugott/BikeSharing.html)
-* [Project 2](MentalHealthSydneyTraugott/MentalHealth.qmd)
+* [Project 2](MentalHealth.qmd)
 

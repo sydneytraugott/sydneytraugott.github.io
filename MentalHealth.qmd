@@ -1,0 +1,401 @@
+---
+title: "Understanding the Factors of Mental Health"
+date: last-modified
+date-format: "[Last modified on] MMMM DD, YYYY HH:mm:ss zzz"
+format: 
+  html:
+    theme: zephyr pulse  # zephyr pulse, sketchy, default, cosmo, vapor etc
+    mainfont: Palatino
+author:
+  - name: Sydney Traugott
+    email: traugottsl@appstate.edu
+    affiliation:
+      - name: Appalachian State University
+        city: Boone
+        state: NC  
+        url: https://www.appstate.edu/
+abstract: >
+  This a dataset that recorded a global survey conducted to track trends in mental health in 2014 - 2015. The data covers a range of variables such as levels of stress, depression, anxiety, subjective well-being, and use of mental health services. The survey involved respondents from various demographic backgrounds, including gender, employment status, and geographic region. This dataset aims to provide a better understanding of changes in mental health globally over the specified time period.
+keywords:
+  - R
+  - data viz
+license: "CC BY"  
+code-fold: false
+---
+
+# Introduction
+
+Let's get started.
+
+
+```{r}
+#| label: "setup"
+#| include: false
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, comment = NA, fig.align = "center")
+```
+
+## Loading Necessary Packages
+
+```{r}
+#| label: "needed"
+# For data manipulation and tidying
+library(dplyr)
+library(lubridate)
+library(tidyr)
+
+# For mapping
+library(ggmap)
+library(mapproj)
+
+# For data visualizations
+library(ggplot2)
+
+# For modeling and machine learning
+library(caret)
+```
+
+## Importing Data
+
+All of the data can be downloaded from [Kaggle](https://www.kaggle.com/datasets/divaniazzahra/mental-health-dataset/data). 
+
+```{r}
+results <- read.csv(file = "Mental-Health-Dataset.csv")
+```
+
+
+Ok, let's take a look at each of these data files.
+
+### Data Structures and Variables
+
+#### `results`
+
+```{r}
+#| echo: false
+glimpse(results)
+```
+
+There are 17 variables in the data `results` data frame:
+
+1. `Timestamp`: Time and date of survey.
+
+2. `Gender`: Gender of the respondent.
+
+3. `Country`: The country where the respondent lives.
+
+4. `Occupation`: Occupation or profession of the respondent.
+
+5. `self_employed`: Is the respondent self-employed or not?
+
+6. `family_history`: Is there a history of mental health disorders in the respondent's family?
+
+7. `treatment`: Has the respondent ever received treatment or therapy for mental health problems?
+
+8. `Days_Indoors`: Estimated number of days a week the respondent spends indoors.
+
+9. `Growing_Stress`: The current level of stress the respondent feels.
+
+10. `Changes_habits`: Has the respondent experienced any changes in sleeping habits or patterns?
+
+11. `Mental_Health_History`: Does the respondent have a previous history of mental health disorders?
+
+12. `Mood_Swings`: Does the respondent experience sudden mood swings?
+
+13. `Coping_Struggles`: Does the respondent have difficulty coping with pressure or stress?
+
+14. `Work_Interest`: The respondent's level of interest and motivation in their work.
+
+15. `Social_Weakness`: Does the respondent find difficulty to interact socially or maintain relationships?
+
+16. `mental_health_interview`: Is the respondent willing to be interviewed about their mental health?
+
+17. `care_options`: Is the respondent aware of or using mental health care options?
+
+
+# Data Visualizations
+
+Most of the data in this data set is categorical data, so our visualization will be very limited.
+
+## Demographics Data Visualization
+
+Let's explore a little at the different demographics such as `Gender` and `Occupation` that the data set has.
+
+```{r}
+#| echo: false
+count_gender <- results %>% 
+  group_by(Gender) %>% 
+  count()
+count_gender
+
+```
+
+There are 2 genders in this data set with male being the majority number.
+
+```{r}
+#| echo: false
+count_occupation <- results %>% 
+  group_by(Occupation) %>% 
+  count()
+count_occupation
+```
+
+There are 5 different occupations.
+
+
+```{r}
+#| echo: false
+count_country <- results %>% 
+  group_by(Country) %>% 
+  count()
+count_country
+```
+
+There are 35 countries.
+
+Let's make a graph that has gender and occupation in it while facet wrapped by countries. 
+
+```{r}
+#| echo: false
+#| label: fig-facet
+#| fig-cap: "35 side-by-side graphs, one for each country. Each has a seperate line based off of gender and it is grouped by occupation, showing activity by hour of the day when the data was collected. "
+
+results %>% 
+  group_by(Hour = hour(Timestamp), Country, Gender, Occupation) %>% 
+  summarise(N = n()) %>% 
+  ggplot(aes(Hour, N, color = Gender, group = Occupation))+ geom_line()+
+  geom_point()+
+  facet_wrap(vars(Country))+
+  theme(legend.position = "top")+
+  scale_color_manual(values = c("pink", "lightblue"))+
+  theme_bw()+
+  labs(x = "Hour of the Day", y = "Number of People")
+```
+
+Since we did a count of demographics, let's see how they interact with the different factors of mental health.
+
+## Gender
+
+Gender is a well known demographic that has different disparities when it comes to mental health. Usually, women are more at risk for mood disorder and symptoms and anxiety disorders and symptoms. However, since there is a lot more men in that data set compare to women, the data might tell us something else. So why don't we take a look at how gender plays a role in some of the factors of mental health.
+
+For this, let's look at `Growing_Stress`, `Mood_Swings`, `Treatment`, `Coping_Struggles`, `Mental_Health_History`, and `Family_History`.
+
+### History
+
+Let's start with how participants who have a history with mental health based on gender. 
+
+```{r}
+#| echo: false
+#| label: fig-bar1
+#| fig-cap: "A bar graph showing the number of people who have history with mental health based on gender."
+
+results %>% 
+  ggplot(aes(Mental_Health_History, fill = Gender))+
+  geom_bar()+
+  scale_fill_manual(values = c("pink", "lightblue"))+
+  theme_bw()+
+  labs(x = "Mental Health History")
+```
+
+As predicted, there is more men then women who have a history with mental health. But what about family history?
+
+```{r}
+#| echo: false
+#| label: fig-bar2
+#| fig-cap: "A bar graph showing the number of people whose families have a history of mental health based on gender."
+
+results %>% 
+  ggplot(aes(family_history, fill = Gender))+
+  geom_bar()+
+  scale_fill_manual(values = c("pink", "lightblue"))+
+  theme_bw()+
+  labs(x = "Family Mental Health History")
+```
+
+How interesting that `family_history` doesn't have a maybe column like the previous bar graph. Just like the previous graph, it is overwhelmingly men then women.
+
+### Symptoms
+
+In this section, let's look at how gender can play into effect at different mental health symptoms that can pre-determine or factor into mental health.
+
+```{r}
+#| echo: false
+#| label: fig-bar3
+#| fig-cap: "A bar graph showing the number of people who stress has been increasing based off of gender."
+
+results %>% 
+  group_by(Growing_Stress, Gender) %>% 
+  ggplot(aes(x = Growing_Stress, fill = Gender))+
+  geom_bar()+
+  scale_fill_manual(values = c("pink", "lightblue"))+
+  theme_bw()+
+  labs(x = "Growing Stress")
+
+```
+
+Well that's interesting. Even though there is still an overwhelmingly huge response from men, a good portion of women said yes to being stress compared to the no and maybe responses. Meanwhile for men, there is only a slightly higher stress levels compared to the no category while it's mostly a maybe for men.
+
+```{r}
+#| echo: false
+#| label: fig-bar4
+#| fig-cap: "A bar graph showing the number of people who experienced mood swings based off of gender."
+results %>% 
+  group_by(Mood_Swings, Gender) %>% 
+  ggplot(aes(x = Mood_Swings, fill = Gender))+
+  geom_bar()+
+  scale_fill_manual(values = c("pink", "lightblue"))+
+  theme_bw()+
+  labs(x = "Mood Swings")
+```
+
+The responses for this graph is slightly similar to the increase in stress graph. While men are ranked lower in the high category for mood swings, it seems like their highest category is medium mood swings. Meanwhile, women experience high mood swings and about the same amount of mood swings in the other two categories.
+
+### Treatment and Coping 
+
+In this section, let's look at how gender can play into effect in how people receive treatment or have difficulty in coping with pressure or stress.
+
+```{r}
+#| echo: false
+#| label: fig-bar5
+#| fig-cap: "A bar graph showing how different genders interact coping with pressure and stress."
+results %>% 
+  group_by(Coping_Struggles, Gender) %>% 
+  ggplot(aes(x = Coping_Struggles, fill = Gender))+
+  geom_bar()+
+  theme_bw()+
+  scale_fill_manual(values = c("pink", "lightblue"))+
+  labs(x = "Difficulty in Coping")
+```
+It seems like while men are less likely to struggle coping with pressure and stress, women are more likely to struggle.
+
+```{r}
+#| echo: false
+#| label: fig-bar6
+#| fig-cap: "A bar graph showing if different genders recieve treatment."
+results %>% 
+  group_by(treatment, Gender) %>% 
+  ggplot(aes(x = treatment, fill = Gender))+
+  geom_bar()+
+  scale_fill_manual(values = c("pink", "lightblue"))+
+  theme_bw()+
+  labs(x = "Recieved Treatment")
+```
+
+That's a huge disparity. It seems like more women are receiving treatment or therapy for their mental health problems compared to men who mainly don't receive anything for their mental health problems.
+
+## Occupation
+
+Occupation is another well known demographic that has different disparities when it comes to mental health. Usually, those who are unemployed or students has more mental health problems due to socioeconomic reasons.
+
+For this, let's look at `Growing_Stress`, `Work_Interest`, `Coping_Struggles`, `Changes_Habits`, `Social_Weakness`, and `Mental_Health_History`.
+
+### Stress and Work Interest
+
+In this section let's see how stress can play into work interest for different occupations. From there, let's see if there have been any coping difficulties to manage the pressure and stress.
+
+```{r}
+#| echo: false
+#| label: fig-facet2
+#| fig-cap: "Five side-by-side graphs, one for each occupation. Each has a seperate line based off of interest and motivation in work and it is grouped by and colored by stress levels each participant is feeling."
+
+
+results %>% 
+  group_by(Occupation, Growing_Stress, Work_Interest) %>% 
+  summarise(N = n()) %>% 
+  ggplot(aes(Work_Interest, N, color = Growing_Stress, group = Growing_Stress))+
+  geom_line()+
+  geom_point()+
+  facet_wrap(vars(Occupation))+
+  scale_color_manual(values = c("pink", "lightblue", "purple"))+
+  theme_bw()+
+  labs(x = "Interest and Motiviation in Work", y = "Participants", color = "Current Level of Stress")
+```
+
+For a majority of these occupations, it seems like when there is a small amount of stress and pressure put upon them, the more interested and motivated they are in their work.
+
+So how does this play into how they cope with that stress based on occupation?
+
+```{r}
+#| echo: false
+#| label: fig-facet3
+#| fig-cap: "Five side-by-side graphs, one for each occupation. Each has a seperate line based off of difficulty in how the participant copes with stress and it is grouped by and colored by stress levels each participant is feeling."
+
+
+results %>% 
+  group_by(Occupation, Growing_Stress, Coping_Struggles) %>% 
+  summarise(N = n()) %>% 
+  ggplot(aes(Coping_Struggles, N, color = Growing_Stress, group = Growing_Stress))+
+  geom_line()+
+  geom_point()+
+  facet_wrap(vars(Occupation))+
+  scale_color_manual(values = c("pink", "lightblue", "purple"))+
+  theme_bw()+
+  labs(x = "Difficulting Coping With Stress", y = "Participants", color = "Current Level of Stress")
+```
+
+It seems that those with high levels of stress are also having difficulty managing stress, which is affecting their mental health.
+
+### Changes
+
+I want to see if depending on the occupation and stress, if there have been any changes in their sleeping habits or patters. Additionally, does the type of occupation and stress affect relationships?
+
+Let's start off by looking into how sleep patterns and habits are affected by types of occupation and stress.
+
+```{r}
+#| echo: false
+#| label: fig-facet4
+#| fig-cap: "Five side-by-side graphs, one for each occupation. Each has a seperate line based off changes in sleep patterns and habits and it is grouped by and colored by stress levels each participant is feeling."
+
+
+results %>% 
+   group_by(Occupation, Growing_Stress, Changes_Habits) %>% 
+  summarise(N = n()) %>% 
+  ggplot(aes(Changes_Habits, N, color = Growing_Stress, group = Growing_Stress))+
+  geom_line()+
+  geom_point()+
+  facet_wrap(vars(Occupation))+
+  scale_color_manual(values = c("pink", "lightblue", "purple"))+
+  theme_bw()+
+  labs(x = "Sleep Pattern Changes", y = "Participants", color = "Current Levels of Stress")
+```
+
+Seems like most changes of sleep patterns and habits correlate with a high level of stress.
+
+Let's now look into how it may have been difficult to interact socially or maintain relationships based on stress and occupation.
+
+```{r}
+#| echo: false
+#| label: fig-facet5
+#| fig-cap: "Five side-by-side graphs, one for each occupation. Each has a seperate line based off difficulty interacting and maintaining relationships. It is grouped by and colored by stress levels each participant is feeling."
+
+results %>% 
+   group_by(Occupation, Growing_Stress, Social_Weakness) %>% 
+  summarise(N = n()) %>% 
+  ggplot(aes(Social_Weakness, N, color = Growing_Stress, group = Growing_Stress))+
+  geom_line()+
+  geom_point()+
+  facet_wrap(vars(Occupation))+
+  scale_color_manual(values = c("pink", "lightblue", "purple"))+
+  theme_bw()+
+  labs(x = "Difficulty Interacting and Mainting Relationships", y = "Participants", color = "Current Levels of Stress")
+```
+It seems to be all over the place depending on the occupation. Looks like that the majority have said it was difficult to maintain a relationship or interact socially depending on the occupation and current levels of stress. 
+
+### Mental Health
+
+Finally, in this section let's look at how mental health is affected by occupations. 
+
+```{r}
+#| echo: false
+#| label: fig-bar7
+#| fig-cap: "Three side-by-side bars, one for each response for participants who indicated that have had history of mental health disorders. It is filled by different indications of stress levels. Pink is maybe, light blue is no, and purple is yes."
+results %>%
+  group_by(Occupation, Mental_Health_History, Growing_Stress) %>% 
+  ggplot(aes(x = Occupation, fill = Growing_Stress))+
+  geom_bar()+
+facet_grid(cols = vars(Mental_Health_History)) + 
+  scale_fill_manual(values = c("pink", "lightblue", "purple"))+
+  guides(fill = "none")+ 
+  theme_bw()+ 
+  labs(x = "Occupation", fill = "Current Levels of Stress")
+```
+
+It looks like it also depends on the occupation participants have. It is all over the place for maybe having mental health disorder and seems like those who indicated that they may have some levels of stress may also have some mental health disorder. There seems that a participant has either indicated no or a maybe to having stress with no mental heath disorders.There is a low indication and confirmation from participants that they have some form of mental health disorder. From here they mainly either indicated yes or a maybe for increase in stress.
