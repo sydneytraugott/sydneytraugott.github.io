@@ -1,54 +1,5 @@
 [
   {
-    "objectID": "CombiningDatasetsSlides.html#problem-1",
-    "href": "CombiningDatasetsSlides.html#problem-1",
-    "title": "Combining Datasets",
-    "section": "Problem 1",
-    "text": "Problem 1\nTake a look at the three data frames - happy, happy_join_one, and happy_full\n\nglimpse(happy)\n\nRows: 5\nColumns: 4\n$ country_name   &lt;chr&gt; \"Iraq\", \"Comoros\", \"Panama\", \"Maldives\", \"Spain\"\n$ ladder_score   &lt;dbl&gt; 4.854, 4.289, 6.180, 5.198, 6.491\n$ gdp            &lt;dbl&gt; 9.240, 8.031, 10.350, 9.826, 10.571\n$ social_support &lt;dbl&gt; 0.746, 0.626, 0.896, 0.913, 0.932\n\nglimpse(happy_join_one)\n\nRows: 5\nColumns: 2\n$ country_name            &lt;chr&gt; \"Iraq\", \"Comoros\", \"Panama\", \"Maldives\", \"Spai…\n$ healthy_life_expectancy &lt;dbl&gt; 60.583, 57.349, 69.652, 70.600, 74.700\n\nglimpse(happy_full)\n\nRows: 149\nColumns: 20\n$ country_name                              &lt;chr&gt; \"Finland\", \"Denmark\", \"Switz…\n$ region                                    &lt;chr&gt; \"Western Europe\", \"Western E…\n$ ladder_score                              &lt;dbl&gt; 7.842, 7.620, 7.571, 7.554, …\n$ standard_error_of_ladder_score            &lt;dbl&gt; 0.032, 0.035, 0.036, 0.059, …\n$ upperwhisker                              &lt;dbl&gt; 7.904, 7.687, 7.643, 7.670, …\n$ lowerwhisker                              &lt;dbl&gt; 7.780, 7.552, 7.500, 7.438, …\n$ logged_gdp_per_capita                     &lt;dbl&gt; 10.775, 10.933, 11.117, 10.8…\n$ social_support                            &lt;dbl&gt; 0.954, 0.954, 0.942, 0.983, …\n$ healthy_life_expectancy                   &lt;dbl&gt; 72.000, 72.700, 74.400, 73.0…\n$ freedom_to_make_life_choices              &lt;dbl&gt; 0.949, 0.946, 0.919, 0.955, …\n$ generosity                                &lt;dbl&gt; -0.098, 0.030, 0.025, 0.160,…\n$ perceptions_of_corruption                 &lt;dbl&gt; 0.186, 0.179, 0.292, 0.673, …\n$ ladder_score_in_dystopia                  &lt;dbl&gt; 2.43, 2.43, 2.43, 2.43, 2.43…\n$ explained_by_log_gdp_per_capita           &lt;dbl&gt; 1.446, 1.502, 1.566, 1.482, …\n$ explained_by_social_support               &lt;dbl&gt; 1.106, 1.108, 1.079, 1.172, …\n$ explained_by_healthy_life_expectancy      &lt;dbl&gt; 0.741, 0.763, 0.816, 0.772, …\n$ explained_by_freedom_to_make_life_choices &lt;dbl&gt; 0.691, 0.686, 0.653, 0.698, …\n$ explained_by_generosity                   &lt;dbl&gt; 0.124, 0.208, 0.204, 0.293, …\n$ explained_by_perceptions_of_corruption    &lt;dbl&gt; 0.481, 0.485, 0.413, 0.170, …\n$ dystopia_residual                         &lt;dbl&gt; 3.253, 2.868, 2.839, 2.967, …"
-  },
-  {
-    "objectID": "CombiningDatasetsSlides.html#problem-2",
-    "href": "CombiningDatasetsSlides.html#problem-2",
-    "title": "Combining Datasets",
-    "section": "Problem 2",
-    "text": "Problem 2\nCombine happy and happy_join_one by row\n\nbind_rows(happy, happy_join_one)\n\n# A tibble: 10 × 5\n   country_name ladder_score   gdp social_support healthy_life_expectancy\n   &lt;chr&gt;               &lt;dbl&gt; &lt;dbl&gt;          &lt;dbl&gt;                   &lt;dbl&gt;\n 1 Iraq                 4.85  9.24          0.746                    NA  \n 2 Comoros              4.29  8.03          0.626                    NA  \n 3 Panama               6.18 10.4           0.896                    NA  \n 4 Maldives             5.20  9.83          0.913                    NA  \n 5 Spain                6.49 10.6           0.932                    NA  \n 6 Iraq                NA    NA            NA                        60.6\n 7 Comoros             NA    NA            NA                        57.3\n 8 Panama              NA    NA            NA                        69.7\n 9 Maldives            NA    NA            NA                        70.6\n10 Spain               NA    NA            NA                        74.7"
-  },
-  {
-    "objectID": "CombiningDatasetsSlides.html#problem-3",
-    "href": "CombiningDatasetsSlides.html#problem-3",
-    "title": "Combining Datasets",
-    "section": "Problem 3",
-    "text": "Problem 3\nCombine happy and happy_join_one by column.\n\nnrow(happy) == nrow(happy_join_one)\n\n[1] TRUE\n\nbind_cols(happy, happy_join_one)\n\nNew names:\n• `country_name` -&gt; `country_name...1`\n• `country_name` -&gt; `country_name...5`\n\n\n# A tibble: 5 × 6\n  country_name...1 ladder_score   gdp social_support country_name...5\n  &lt;chr&gt;                   &lt;dbl&gt; &lt;dbl&gt;          &lt;dbl&gt; &lt;chr&gt;           \n1 Iraq                     4.85  9.24          0.746 Iraq            \n2 Comoros                  4.29  8.03          0.626 Comoros         \n3 Panama                   6.18 10.4           0.896 Panama          \n4 Maldives                 5.20  9.83          0.913 Maldives        \n5 Spain                    6.49 10.6           0.932 Spain           \n# ℹ 1 more variable: healthy_life_expectancy &lt;dbl&gt;"
-  },
-  {
-    "objectID": "CombiningDatasetsSlides.html#problem-4",
-    "href": "CombiningDatasetsSlides.html#problem-4",
-    "title": "Combining Datasets",
-    "section": "Problem 4",
-    "text": "Problem 4\nWhich join_* function is a better alternative to the previous solution?\n\nhappy %&gt;%\n  inner_join(happy_join_one)\n\nJoining with `by = join_by(country_name)`\n\n\n# A tibble: 5 × 5\n  country_name ladder_score   gdp social_support healthy_life_expectancy\n  &lt;chr&gt;               &lt;dbl&gt; &lt;dbl&gt;          &lt;dbl&gt;                   &lt;dbl&gt;\n1 Iraq                 4.85  9.24          0.746                    60.6\n2 Comoros              4.29  8.03          0.626                    57.3\n3 Panama               6.18 10.4           0.896                    69.7\n4 Maldives             5.20  9.83          0.913                    70.6\n5 Spain                6.49 10.6           0.932                    74.7"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "STT 2860 Intro to Data Management and Visual",
-    "section": "",
-    "text": "This is the main landing page. Here is where you can find all external links.\n\nTo view my LinkedIn Profile.\nTo learn more about Quarto websites."
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About Me",
-    "section": "",
-    "text": "Hi, I’m Sydney Traugott!\nThis website is a product of my statistics class called, Data Management and Visualization.\nI’m currently a psychology major at Appalachian State University. Besides being a senior at AppState, I’m currently a research assistant and in the Honor’s College. Currently I’m aiming to get a PsyD in Clinical Psychology.\n\n\n\n\n\nIf you have any questions, contact me at: traugottsl@appstate.edu."
-  },
-  {
-    "objectID": "project.html",
-    "href": "project.html",
-    "title": "Projects",
-    "section": "",
-    "text": "Combining Datasets.\nProject 1\nProject 2"
-  },
-  {
     "objectID": "MentalHealth-SydneyTraugott/MentalHealth-SydneyTraugott.html",
     "href": "MentalHealth-SydneyTraugott/MentalHealth-SydneyTraugott.html",
     "title": "Understanding the Factors of Mental Health",
@@ -89,5 +40,54 @@
     "title": "Understanding the Factors of Mental Health",
     "section": "Occupation",
     "text": "Occupation\nOccupation is another well known demographic that has different disparities when it comes to mental health. Usually, those who are unemployed or students has more mental health problems due to socioeconomic reasons.\nFor this, let’s look at Growing_Stress, Work_Interest, Coping_Struggles, Changes_Habits, Social_Weakness, and Mental_Health_History.\n\nStress and Work Interest\nIn this section let’s see how stress can play into work interest for different occupations. From there, let’s see if there have been any coping difficulties to manage the pressure and stress.\n\n\n\n\n\nFigure 8: Five side-by-side graphs, one for each occupation. Each has a seperate line based off of interest and motivation in work and it is grouped by and colored by stress levels each participant is feeling.\n\n\n\n\nFor a majority of these occupations, it seems like when there is a small amount of stress and pressure put upon them, the more interested and motivated they are in their work.\nSo how does this play into how they cope with that stress based on occupation?\n\n\n\n\n\nFigure 9: Five side-by-side graphs, one for each occupation. Each has a seperate line based off of difficulty in how the participant copes with stress and it is grouped by and colored by stress levels each participant is feeling.\n\n\n\n\nIt seems that those with high levels of stress are also having difficulty managing stress, which is affecting their mental health.\n\n\nChanges\nI want to see if depending on the occupation and stress, if there have been any changes in their sleeping habits or patters. Additionally, does the type of occupation and stress affect relationships?\nLet’s start off by looking into how sleep patterns and habits are affected by types of occupation and stress.\n\n\n\n\n\nFigure 10: Five side-by-side graphs, one for each occupation. Each has a seperate line based off changes in sleep patterns and habits and it is grouped by and colored by stress levels each participant is feeling.\n\n\n\n\nSeems like most changes of sleep patterns and habits correlate with a high level of stress.\nLet’s now look into how it may have been difficult to interact socially or maintain relationships based on stress and occupation.\n\n\n\n\n\nFigure 11: Five side-by-side graphs, one for each occupation. Each has a seperate line based off difficulty interacting and maintaining relationships. It is grouped by and colored by stress levels each participant is feeling.\n\n\n\n\nIt seems to be all over the place depending on the occupation. Looks like that the majority have said it was difficult to maintain a relationship or interact socially depending on the occupation and current levels of stress.\n\n\nMental Health\nFinally, in this section let’s look at how mental health is affected by occupations.\n\n\n\n\n\nFigure 12: Three side-by-side bars, one for each response for participants who indicated that have had history of mental health disorders. It is filled by different indications of stress levels. Pink is maybe, light blue is no, and purple is yes.\n\n\n\n\nIt looks like it also depends on the occupation participants have. It is all over the place for maybe having mental health disorder and seems like those who indicated that they may have some levels of stress may also have some mental health disorder. There seems that a participant has either indicated no or a maybe to having stress with no mental heath disorders.There is a low indication and confirmation from participants that they have some form of mental health disorder. From here they mainly either indicated yes or a maybe for increase in stress."
+  },
+  {
+    "objectID": "project.html",
+    "href": "project.html",
+    "title": "Projects",
+    "section": "",
+    "text": "Combining Datasets.\nProject 1\nProject 2"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About Me",
+    "section": "",
+    "text": "Hi, I’m Sydney Traugott!\nThis website is a product of my statistics class called, Data Management and Visualization.\nI’m currently a psychology major at Appalachian State University. Besides being a senior at AppState, I’m currently a research assistant and in the Honor’s College. Currently I’m aiming to get a PsyD in Clinical Psychology.\n\n\n\n\n\nIf you have any questions, contact me at: traugottsl@appstate.edu."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "STT 2860 Intro to Data Management and Visual",
+    "section": "",
+    "text": "This is the main landing page. Here is where you can find all external links.\n\nTo view my LinkedIn Profile.\nTo learn more about Quarto websites."
+  },
+  {
+    "objectID": "CombiningDatasetsSlides.html#problem-1",
+    "href": "CombiningDatasetsSlides.html#problem-1",
+    "title": "Combining Datasets",
+    "section": "Problem 1",
+    "text": "Problem 1\nTake a look at the three data frames - happy, happy_join_one, and happy_full\n\nglimpse(happy)\n\nRows: 5\nColumns: 4\n$ country_name   &lt;chr&gt; \"Iraq\", \"Comoros\", \"Panama\", \"Maldives\", \"Spain\"\n$ ladder_score   &lt;dbl&gt; 4.854, 4.289, 6.180, 5.198, 6.491\n$ gdp            &lt;dbl&gt; 9.240, 8.031, 10.350, 9.826, 10.571\n$ social_support &lt;dbl&gt; 0.746, 0.626, 0.896, 0.913, 0.932\n\nglimpse(happy_join_one)\n\nRows: 5\nColumns: 2\n$ country_name            &lt;chr&gt; \"Iraq\", \"Comoros\", \"Panama\", \"Maldives\", \"Spai…\n$ healthy_life_expectancy &lt;dbl&gt; 60.583, 57.349, 69.652, 70.600, 74.700\n\nglimpse(happy_full)\n\nRows: 149\nColumns: 20\n$ country_name                              &lt;chr&gt; \"Finland\", \"Denmark\", \"Switz…\n$ region                                    &lt;chr&gt; \"Western Europe\", \"Western E…\n$ ladder_score                              &lt;dbl&gt; 7.842, 7.620, 7.571, 7.554, …\n$ standard_error_of_ladder_score            &lt;dbl&gt; 0.032, 0.035, 0.036, 0.059, …\n$ upperwhisker                              &lt;dbl&gt; 7.904, 7.687, 7.643, 7.670, …\n$ lowerwhisker                              &lt;dbl&gt; 7.780, 7.552, 7.500, 7.438, …\n$ logged_gdp_per_capita                     &lt;dbl&gt; 10.775, 10.933, 11.117, 10.8…\n$ social_support                            &lt;dbl&gt; 0.954, 0.954, 0.942, 0.983, …\n$ healthy_life_expectancy                   &lt;dbl&gt; 72.000, 72.700, 74.400, 73.0…\n$ freedom_to_make_life_choices              &lt;dbl&gt; 0.949, 0.946, 0.919, 0.955, …\n$ generosity                                &lt;dbl&gt; -0.098, 0.030, 0.025, 0.160,…\n$ perceptions_of_corruption                 &lt;dbl&gt; 0.186, 0.179, 0.292, 0.673, …\n$ ladder_score_in_dystopia                  &lt;dbl&gt; 2.43, 2.43, 2.43, 2.43, 2.43…\n$ explained_by_log_gdp_per_capita           &lt;dbl&gt; 1.446, 1.502, 1.566, 1.482, …\n$ explained_by_social_support               &lt;dbl&gt; 1.106, 1.108, 1.079, 1.172, …\n$ explained_by_healthy_life_expectancy      &lt;dbl&gt; 0.741, 0.763, 0.816, 0.772, …\n$ explained_by_freedom_to_make_life_choices &lt;dbl&gt; 0.691, 0.686, 0.653, 0.698, …\n$ explained_by_generosity                   &lt;dbl&gt; 0.124, 0.208, 0.204, 0.293, …\n$ explained_by_perceptions_of_corruption    &lt;dbl&gt; 0.481, 0.485, 0.413, 0.170, …\n$ dystopia_residual                         &lt;dbl&gt; 3.253, 2.868, 2.839, 2.967, …"
+  },
+  {
+    "objectID": "CombiningDatasetsSlides.html#problem-2",
+    "href": "CombiningDatasetsSlides.html#problem-2",
+    "title": "Combining Datasets",
+    "section": "Problem 2",
+    "text": "Problem 2\nCombine happy and happy_join_one by row\n\nbind_rows(happy, happy_join_one)\n\n# A tibble: 10 × 5\n   country_name ladder_score   gdp social_support healthy_life_expectancy\n   &lt;chr&gt;               &lt;dbl&gt; &lt;dbl&gt;          &lt;dbl&gt;                   &lt;dbl&gt;\n 1 Iraq                 4.85  9.24          0.746                    NA  \n 2 Comoros              4.29  8.03          0.626                    NA  \n 3 Panama               6.18 10.4           0.896                    NA  \n 4 Maldives             5.20  9.83          0.913                    NA  \n 5 Spain                6.49 10.6           0.932                    NA  \n 6 Iraq                NA    NA            NA                        60.6\n 7 Comoros             NA    NA            NA                        57.3\n 8 Panama              NA    NA            NA                        69.7\n 9 Maldives            NA    NA            NA                        70.6\n10 Spain               NA    NA            NA                        74.7"
+  },
+  {
+    "objectID": "CombiningDatasetsSlides.html#problem-3",
+    "href": "CombiningDatasetsSlides.html#problem-3",
+    "title": "Combining Datasets",
+    "section": "Problem 3",
+    "text": "Problem 3\nCombine happy and happy_join_one by column.\n\nnrow(happy) == nrow(happy_join_one)\n\n[1] TRUE\n\nbind_cols(happy, happy_join_one)\n\nNew names:\n• `country_name` -&gt; `country_name...1`\n• `country_name` -&gt; `country_name...5`\n\n\n# A tibble: 5 × 6\n  country_name...1 ladder_score   gdp social_support country_name...5\n  &lt;chr&gt;                   &lt;dbl&gt; &lt;dbl&gt;          &lt;dbl&gt; &lt;chr&gt;           \n1 Iraq                     4.85  9.24          0.746 Iraq            \n2 Comoros                  4.29  8.03          0.626 Comoros         \n3 Panama                   6.18 10.4           0.896 Panama          \n4 Maldives                 5.20  9.83          0.913 Maldives        \n5 Spain                    6.49 10.6           0.932 Spain           \n# ℹ 1 more variable: healthy_life_expectancy &lt;dbl&gt;"
+  },
+  {
+    "objectID": "CombiningDatasetsSlides.html#problem-4",
+    "href": "CombiningDatasetsSlides.html#problem-4",
+    "title": "Combining Datasets",
+    "section": "Problem 4",
+    "text": "Problem 4\nWhich join_* function is a better alternative to the previous solution?\n\nhappy %&gt;%\n  inner_join(happy_join_one)\n\nJoining with `by = join_by(country_name)`\n\n\n# A tibble: 5 × 5\n  country_name ladder_score   gdp social_support healthy_life_expectancy\n  &lt;chr&gt;               &lt;dbl&gt; &lt;dbl&gt;          &lt;dbl&gt;                   &lt;dbl&gt;\n1 Iraq                 4.85  9.24          0.746                    60.6\n2 Comoros              4.29  8.03          0.626                    57.3\n3 Panama               6.18 10.4           0.896                    69.7\n4 Maldives             5.20  9.83          0.913                    70.6\n5 Spain                6.49 10.6           0.932                    74.7"
   }
 ]
